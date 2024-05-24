@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How is your day?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hidden {
+            display: none;
+        }
+        label {
+            margin-right: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>How is your day?</h2>
+        <form id="dayForm">
+            <label for="ok">I'm OK</label>
+            <input type="radio" id="ok" name="day" value="ok">
+            <br>
+            <label for="notOk">I'm not OK</label>
+            <input type="radio" id="notOk" name="day" value="notOk">
+            <br>
+            <div id="message" class="hidden"></div>
+            <div id="response" class="hidden">
+                <textarea id="responseText" placeholder="Tell us what's bothering you"></textarea>
+                <br>
+                <button type="button" onclick="sendEmail()">Send Email</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('dayForm').addEventListener('change', function() {
+            const isOkChecked = document.getElementById('ok').checked;
+            const isNotOkChecked = document.getElementById('notOk').checked;
+            const messageDiv = document.getElementById('message');
+            const responseDiv = document.getElementById('response');
+
+            if (isOkChecked && !isNotOkChecked) {
+                messageDiv.textContent = 'Oh good job, have a good one!';
+                messageDiv.classList.remove('hidden');
+                responseDiv.classList.add('hidden');
+            } else if (!isOkChecked && isNotOkChecked) {
+                messageDiv.textContent = 'Why, what\'s bothering you?';
+                messageDiv.classList.remove('hidden');
+                responseDiv.classList.remove('hidden');
+            } else {
+                messageDiv.classList.add('hidden');
+                responseDiv.classList.add('hidden');
+            }
+        });
+
+        function sendEmail() {
+            const responseText = document.getElementById('responseText').value;
+            const email = 'jyork.manio909@gmail.com';
+            const subject = 'Response from Day Check';
+            const body = encodeURIComponent(responseText);
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+    </script>
+</body>
+</html>
